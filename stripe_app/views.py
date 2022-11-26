@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView
 from django.conf import settings
 from django.views import View
-from .models import Item
+from .models import Order
 
 stripe.api_key = settings.STRIPE_SEC_KEY
 
@@ -16,15 +16,19 @@ class ItemCancelPageView(TemplateView):
     template_name = 'cancel.html'
 
 
-class ItemPageView(TemplateView):
+class LandingPageView(TemplateView):
     template_name = 'landing.html'
 
+
+class OrderPageView(TemplateView):
+    template_name = 'order.html'
+
     def get_context_data(self, **kwargs):
-        item_id = self.kwargs['pk']
-        item = Item.objects.get(id=item_id)
-        context = super(ItemPageView, self).get_context_data(**kwargs)
+        order_id = self.kwargs['pk']
+        order = Order.objects.get(id=order_id)
+        context = super(OrderPageView, self).get_context_data(**kwargs)
         context.update({
-            'item': item,
+            'order': order,
             'STRIPE_PUB_KEY': settings.STRIPE_PUB_KEY
         })
         return context
@@ -32,16 +36,16 @@ class ItemPageView(TemplateView):
 
 class CreateCheckoutSessionView(View):
     def get(self, request, *args, **kwargs):
-        item_id = self.kwargs['pk']
-        item = Item.objects.get(id=item_id)
+        order_id = self.kwargs['pk']
+        order = Order.objects.get(id=order_id)
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
                     'price_data': {
                         'currency': 'usd',
-                        'unit_amount': item.price,
+                        'unit_amount': order.get_price_cents(),
                         'product_data': {
-                            'name': item.name
+                            'name': f'Order №{order.id}'
                         }
                     },
                     'quantity': 1,

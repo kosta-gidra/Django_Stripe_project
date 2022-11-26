@@ -1,27 +1,14 @@
 <html>
         <head>
-            <title>Buy {{ item.name }}</title>
-                <script src="https://js.stripe.com/v3/" ></script>
+            <title>Description</title>
         </head>
         <body>
-        <h1>{{ item.name }}</h1>
-                <p>{{ item.description }}</p>
-        <p>{{ item.get_display_price }} $</p>
-                <button type="button" id="buy-button">Buy</button>
-                <script type="text/javascript">
-                        var stripe = Stripe("{{ STRIPE_PUB_KEY }}");
-                        var buyButton = document.getElementById("buy-button");
-                        buyButton.addEventListener("click", function() {
-                                fetch('{% url "create-checkout-session" item.id %}', {
-                                        method: "GET"
-                                })
-                                .then(function (response) {
-                                        return response.json();
-                                })
-                                .then(function (session) {
-                                        return stripe.redirectToCheckout({ sessionId: session.id });
-                                })
-                        });
-                </script>
+        <h1>Проект Stripe payment + Djando</h1>
+        <p>Спасибо, что уделили внимание моему проекту.
+                 <a href="https://github.com/kosta-gidra/Django_Stripe_project">Ссылка на GitHub</a></p>
+        <p>-Для создания заказа перейдите в
+                <a href="http://127.0.0.1:8000/admin/">Django Admin панель</a> </p>
+        <p>-Для просмотра и оплаты заказа перейдите на ссылку /order/id </p>
+
         </body>
 </html>
