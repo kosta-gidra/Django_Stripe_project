@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Item, Order, OrderPositions
+from .models import Item, Order, OrderPositions, Discount
 
 
 class OrderPositionsInline(admin.TabularInline):
@@ -14,5 +14,10 @@ class ItemAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id']
+    list_display = ['id', 'discount']
     inlines = [OrderPositionsInline]
+
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ['id', 'disc_value']

@@ -38,6 +38,15 @@ class CreateCheckoutSessionView(View):
     def get(self, request, *args, **kwargs):
         order_id = self.kwargs['pk']
         order = Order.objects.get(id=order_id)
+        discount = None
+        if order.discount:
+            discount = [
+                {
+                    'coupon': stripe.Coupon.create(duration='once',
+                                                   percent_off=order.discount.disc_value,
+                                                   currency='usd')
+                }
+            ]
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
@@ -52,6 +61,7 @@ class CreateCheckoutSessionView(View):
                 },
             ],
             mode='payment',
+            discounts=discount,
             success_url=settings.YOUR_DOMAIN + '/success/',
             cancel_url=settings.YOUR_DOMAIN + '/cancel/',
         )

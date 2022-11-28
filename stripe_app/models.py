@@ -3,7 +3,7 @@ from django.db import models
 
 class Item(models.Model):
     name = models.CharField(max_length=60, unique=True)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(blank=True)
     price = models.IntegerField(default=0)
 
     def __str__(self):
@@ -13,8 +13,13 @@ class Item(models.Model):
         return '{0:.2f}'.format(self.price / 100)
 
 
+class Discount(models.Model):
+    disc_value = models.IntegerField()
+
+
 class Order(models.Model):
     items = models.ManyToManyField(Item, related_name='orders', through='OrderPositions')
+    discount = models.ForeignKey(Discount, related_name='orders', null=True, blank=True, on_delete=models.SET_NULL)
 
     def get_price_cents(self):
         total_coast = 0
@@ -32,3 +37,4 @@ class OrderPositions(models.Model):
     item = models.ForeignKey(Item, related_name='positions', on_delete=models.CASCADE)
     order = models.ForeignKey(Order, related_name='positions', on_delete=models.CASCADE)
     qty = models.IntegerField()
+

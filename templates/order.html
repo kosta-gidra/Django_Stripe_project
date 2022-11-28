@@ -5,11 +5,14 @@
         </head>
         <body>
         <h1>Order</h1>
-                <p>№ {{ order.id }}</p>
+        <p>№ {{ order.id }}</p>
         {% for position in order.positions.all%}
-        <p>{{ position.item.name }} ,price {{ position.item.get_display_price }}$, qty {{ position.qty }} </p>
+        <p>{{ position.item.name }}, price {{ position.item.get_display_price }}$, qty {{ position.qty }} </p>
         {% endfor %}
-        <p>total coast is {{ order.get_display_price }} $</p>
+        <p>total coast (without discount) is {{ order.get_display_price }} $</p>
+        {% if order.discount %}
+        <p>discount is {{ order.discount.disc_value }} %</p>
+        {% endif %}
                 <button type="button" id="buy-button">Buy</button>
                 <script type="text/javascript">
                         var stripe = Stripe("{{ STRIPE_PUB_KEY }}");
