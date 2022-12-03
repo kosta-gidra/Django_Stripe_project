@@ -1,3 +1,4 @@
 django
 stripe
 python-dotenv
+django-bootstrap-v5
