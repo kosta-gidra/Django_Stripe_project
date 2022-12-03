@@ -1,14 +1,24 @@
-<html>
-        <head>
-            <title>Description</title>
-        </head>
-        <body>
-        <h1>Проект Stripe payment + Djando</h1>
-        <p>Спасибо, что уделили внимание моему проекту.
-                 <a href="https://github.com/kosta-gidra/Django_Stripe_project">Ссылка на GitHub</a></p>
-        <p>-Для создания заказа перейдите в
-                <a href="http://127.0.0.1:8000/admin/">Django Admin панель</a> </p>
-        <p>-Для просмотра и оплаты заказа перейдите на ссылку /order/id </p>
+{% load bootstrap5 %}
 
-        </body>
-</html>
+{% bootstrap_css %}
+
+{% bootstrap_messages %}
+<head>
+    <title>Description</title>
+</head>
+    <body>
+    <div class="container">
+    <h1>Проект Stripe payment + Djando</h1>
+    <p>Спасибо, что уделили внимание моему проекту.</p>
+    <p>Для создания заказа перейдите в
+        <a href="http://127.0.0.1:8000/admin/">Django Admin панель.</a> </p>
+    <p>Для просмотра и оплаты заказа перейдите на ссылку /order/id.
+         <a href="http://127.0.0.1:8000/order/1">Пример: (существующий заказ с id=1)</a> </p>
+    <hr>
+    <p>
+    Выполнил Гидревич Константин
+    </p>
+    <a href="https://github.com/kosta-gidra/Django_Stripe_project" class="btn btn-primary" >Ссылка на GitHub проекта</a>
+    </hr>
+    </div>
+    </body>
